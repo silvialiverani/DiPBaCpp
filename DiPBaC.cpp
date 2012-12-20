@@ -119,7 +119,20 @@ int main(int argc, char*  argv[]){
 		// Update for the active Sigma parameters
 		diPBaCSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
 
+	}else if(options.covariateType().compare("Mixed")==0){
+		// For discrete X data we do a mixture of Categorical and ordinal updates
+		//  Update for the active phi parameters
+		diPBaCSampler.addProposal("updateForPhiActive",1.0,1,1,&updateForPhiActive);
+
+		// Need to add the proposals for the normal case
+		// Update for the active mu parameters
+		diPBaCSampler.addProposal("gibbsForMuActive",1.0,1,1,&gibbsForMuActive);
+
+		// Update for the active Sigma parameters
+		diPBaCSampler.addProposal("gibbsForTauActive",1.0,1,1,&gibbsForTauActive);
+
 	}
+
 
 	if(options.varSelectType().compare("None")!=0){
 		// Add the variable selection moves
@@ -159,6 +172,19 @@ int main(int argc, char*  argv[]){
 		diPBaCSampler.addProposal("gibbsForPhiInActive",1.0,1,1,&gibbsForPhiInActive);
 
 	}else if(options.covariateType().compare("Normal")==0){
+		// Need to add the proposals for the normal case
+		// Update for the active mu parameters
+		diPBaCSampler.addProposal("gibbsForMuInActive",1.0,1,1,&gibbsForMuInActive);
+
+		// Update for the active Sigma parameters
+		diPBaCSampler.addProposal("gibbsForTauInActive",1.0,1,1,&gibbsForTauInActive);
+
+	}else if(options.covariateType().compare("Mixed")==0){
+
+		// For discrete X data we do a mixture of Categorical and ordinal updates
+		//  Update for the inactive phi parameters
+		diPBaCSampler.addProposal("gibbsForPhiInActive",1.0,1,1,&gibbsForPhiInActive);
+
 		// Need to add the proposals for the normal case
 		// Update for the active mu parameters
 		diPBaCSampler.addProposal("gibbsForMuInActive",1.0,1,1,&gibbsForMuInActive);
